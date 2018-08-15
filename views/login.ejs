@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>注册</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<div class="main">
+		<form>
+			账号：<input type="text" name="username" id="username"><br>
+			密码:<input type="password" name="password" id="password"><br>
+			<input type='button' id="submit" value="注册"></input>
+		</form>
+		<div id="language"></div>
+	</div>
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#submit').click(function(){
+				$.ajax({
+					type:'POST',
+					url:'/register/login',
+					dataType:'json',
+					data:{
+						username:$('#username').val(),
+						password:$('#password').val()
+					},
+					success:function(data){
+						console(username, password);
+						if(data.success){
+							console.log(data.success);
+							/*if(data.success==200){
+								window.location.href = 'localhost:3000/register';
+								
+							}*/
+							
+						}else{
+							console.log(data.msg);
+						}
+					},
+					error:function(jqXHR){
+						console.log(jqXHR.status);
+						if(jqXHR.status==203){
+							$("#language").html('用户名已存在');
+						}
+						else if(jqXHR.status==500){
+							$("#language").html('数据库出错');
+						}else if(jqXHR.status==400){
+							$("#language").html('账号相同，请换个账号');
+						}else if(jqXHR.status==200){
+							$("#language").html('注册成功');
+						}
+						
+					}
+
+				})
+			});
+		});
+	</script>
+</body>
+</html>
